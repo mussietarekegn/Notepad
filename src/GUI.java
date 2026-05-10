@@ -17,9 +17,11 @@ public class GUI implements ActionListener {
     JMenuItem iWrap, iFontArial, iFontCSMS, iFontTNR, iFontSize8, iFontSize12, iFontSize16, iFontSize20, iFontSize24, iFontSize28;
     JMenu menuFont,menuFontSize;
 
+    JMenuItem iColor1, iColor2, iColor3;
+
     Function_File file = new Function_File(this);
     Function_Format format = new Function_Format(this);
-
+    Function_Color color = new Function_Color(this);
     public static void main(String[] args){
         new GUI();
     }
@@ -30,10 +32,13 @@ public class GUI implements ActionListener {
         createMenuBar();
         createFileMenu();
         createFormatMenu();
+        createColorMenu();
 
         format.selectedFont = "Arial";
         format.createFont(16);
         format.wordWrap();
+
+        color.changeColor("White");
 
         window.setVisible(true);
 
@@ -161,6 +166,24 @@ public class GUI implements ActionListener {
 
     }
 
+    public void createColorMenu() {
+
+        iColor1 = new JMenuItem("White");
+        iColor1.addActionListener(this);
+        iColor1.setActionCommand("White");
+        menuColor.add(iColor1);
+
+        iColor2 = new JMenuItem("Black");
+        iColor2.addActionListener(this);
+        iColor2.setActionCommand("Black");
+        menuColor.add(iColor2);
+
+        iColor3 = new JMenuItem("Blue");
+        iColor3.addActionListener(this);
+        iColor3.setActionCommand("Blue");
+        menuColor.add(iColor3);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e){
 
@@ -182,6 +205,10 @@ public class GUI implements ActionListener {
             case "size20": format.createFont(20); break;
             case "size24": format.createFont(24); break;
             case "size28": format.createFont(28); break;
+            case "White": color.changeColor("White"); break;
+            case "Black": color.changeColor("Black"); break;
+            case "Blue": color.changeColor("Blue"); break;
+
         }
 
     }
