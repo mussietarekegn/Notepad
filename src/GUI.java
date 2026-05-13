@@ -4,6 +4,9 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import java.awt.BorderLayout;
 
 public class GUI implements ActionListener {
     JFrame window;
@@ -32,6 +35,9 @@ public class GUI implements ActionListener {
     KeyHandler kHandler = new KeyHandler(this);
 
     UndoManager um =new UndoManager();
+
+    JLabel statusBar;
+
     public static void main(String[] args){
         new GUI();
     }
@@ -39,6 +45,7 @@ public class GUI implements ActionListener {
     public GUI(){
         createWindow();
         createTextArea();
+        createStatusBar();
         createMenuBar();
         createEditMenu();
         createFileMenu();
@@ -55,10 +62,31 @@ public class GUI implements ActionListener {
 
     }
 
+    public void updateStatus(){
+
+        String text = textArea.getText();
+
+        int characters = text.length();
+
+        String wordsArray[] = text.trim().split("\\s+");
+
+        int words = 0;
+
+        if(text.trim().isEmpty()){
+            words = 0;
+        }
+        else{
+            words = wordsArray.length;
+        }
+
+        statusBar.setText("Words: " + words + " Characters: " + characters);
+    }
+
     public void createWindow(){
         window = new JFrame("Notepad");
         window.setSize(800,600);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setLayout(new BorderLayout());
     }
 
     public void createTextArea(){
@@ -66,6 +94,21 @@ public class GUI implements ActionListener {
         textArea = new JTextArea();
 
         textArea.addKeyListener(kHandler);
+
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+
+            public void insertUpdate(DocumentEvent e) {
+                updateStatus();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                updateStatus();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                updateStatus();
+            }
+        });
 
         textArea.getDocument().addUndoableEditListener(
                new UndoableEditListener(){
@@ -79,6 +122,14 @@ public class GUI implements ActionListener {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         window.add(scrollPane);
     }
+
+    public void createStatusBar(){
+
+        statusBar = new JLabel("Words: 0 Characters: 0");
+
+        window.add(statusBar, BorderLayout.SOUTH);
+    }
+
 
     public void createMenuBar(){
 
