@@ -28,6 +28,10 @@ public class KeyHandler implements KeyListener {
         if(e.isAltDown() && e.getKeyCode()==KeyEvent.VK_F){
             gui.menuFile.doClick();
         }
+
+        if(e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F){
+            gui.find.find();
+        }
     }
 
     @Override

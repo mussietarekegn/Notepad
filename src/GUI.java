@@ -27,10 +27,13 @@ public class GUI implements ActionListener {
 
     JMenuItem iColor1, iColor2, iColor3;
 
+    JMenuItem iFind;
+
     Function_File file = new Function_File(this);
     Function_Format format = new Function_Format(this);
     Function_Color color = new Function_Color(this);
     Function_Edit edit = new Function_Edit(this);
+    Function_Find find = new Function_Find(this);
 
     KeyHandler kHandler = new KeyHandler(this);
 
@@ -160,6 +163,11 @@ public class GUI implements ActionListener {
         iRedo.addActionListener(this);
         iRedo.setActionCommand("Redo");
         menuEdit.add(iRedo);
+
+        iFind = new JMenuItem("Find");
+        iFind.addActionListener(this);
+        iFind.setActionCommand("Find");
+        menuEdit.add(iFind);
 
 
     }
@@ -297,6 +305,7 @@ public class GUI implements ActionListener {
             case "White": color.changeColor("White"); break;
             case "Black": color.changeColor("Black"); break;
             case "Blue": color.changeColor("Blue"); break;
+            case "Find": find.find(); break;
 
         }
 
